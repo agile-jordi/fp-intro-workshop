@@ -1,7 +1,7 @@
-package com.agilogy.fpintro.users.imperative
+package com.agilogy.fpintro.messages.imperative
 
-import com.agilogy.fpintro.users.domain.{Emoji, MessageContent}
-import com.agilogy.fpintro.users.infrastructure.MessagesRepository
+import com.agilogy.fpintro.messages.domain.{Emoji, MessageContent}
+import com.agilogy.fpintro.messages.infrastructure.MessagesRepository
 
 object Application {
 

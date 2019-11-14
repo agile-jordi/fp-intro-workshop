@@ -1,4 +1,4 @@
-package com.agilogy.fpintro.users.domain
+package com.agilogy.fpintro.messages.domain
 
 final case class Emoji(value: String)
 
