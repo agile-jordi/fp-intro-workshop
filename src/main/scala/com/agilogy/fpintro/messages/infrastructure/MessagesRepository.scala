@@ -1,11 +1,11 @@
-package com.agilogy.fpintro.users.infrastructure
+package com.agilogy.fpintro.messages.infrastructure
 
 import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, Paths}
 
 import scala.util.matching.Regex
 
-import com.agilogy.fpintro.users.domain.{Emoji, Message, MessageContent}
+import com.agilogy.fpintro.messages.domain.{Emoji, Message, MessageContent}
 import scala.collection.JavaConverters._
 
 final class DuplicateMessageException() extends Exception
