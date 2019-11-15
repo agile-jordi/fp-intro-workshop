@@ -14,26 +14,9 @@ final class MessageNotFoundException()  extends Exception
 object MessagesRepository {
 
   private val path                 = Paths.get("./messages.txt").toAbsolutePath
-  private val StoredMessage: Regex = s"(.*) -- (.*)".r
-
-  def deleteAll(): Unit = writeMessages(List.empty)
-
-  def selectAll(): List[Message] = {
-    val lines = Files.readAllLines(path).asScala
-    lines.map {
-      case StoredMessage(message, reactions) =>
-        Message(MessageContent(message), reactions.split(",").filter(_.nonEmpty).map(Emoji(_)).toList)
-    }.toList
-  }
+  private val StoredMessage: Regex = s"(.*) -- ?(.*)".r
 
   def selectByContent(content: MessageContent): Option[Message] = selectAll().find(_.content == content)
-
-  def insert(messageContent: MessageContent): Unit = {
-    val currentMessages = selectAll()
-    if (currentMessages.exists(_.content == messageContent)) throw new DuplicateMessageException()
-    val newMessages = Message(messageContent) :: currentMessages
-    writeMessages(newMessages)
-  }
 
   def update(message: Message): Unit = {
     val currentMessages = selectAll()
@@ -43,6 +26,14 @@ object MessagesRepository {
       case m                                                 => m
     }
     writeMessages(newMessages)
+  }
+
+  private def selectAll(): List[Message] = {
+    val lines = Files.readAllLines(path).asScala
+    lines.map {
+      case StoredMessage(message, reactions) =>
+        Message(MessageContent(message), reactions.split(",").filter(_.nonEmpty).map(Emoji(_)).toList)
+    }.toList
   }
 
   private def writeMessages(messages: List[Message]): Unit = {

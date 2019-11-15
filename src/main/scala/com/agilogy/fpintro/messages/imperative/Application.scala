@@ -9,7 +9,6 @@ object Application {
     val goodMorning = MessageContent("Good mooorning FP laaand!")
     val message     = MessagesRepository.selectByContent(goodMorning).get
     MessagesRepository.update(message.addReaction(Emoji.Sun).addReaction(Emoji.Tada))
-
   }
 
 }
