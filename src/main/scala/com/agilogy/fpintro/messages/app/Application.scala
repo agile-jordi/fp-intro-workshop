@@ -1,4 +1,4 @@
-package com.agilogy.fpintro.messages.imperative
+package com.agilogy.fpintro.messages.app
 
 import com.agilogy.fpintro.messages.domain.{Emoji, MessageContent}
 import com.agilogy.fpintro.messages.infrastructure.MessagesRepository
