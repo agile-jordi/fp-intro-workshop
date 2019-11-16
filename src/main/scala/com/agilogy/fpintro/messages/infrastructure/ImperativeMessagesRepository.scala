@@ -6,13 +6,13 @@ import java.nio.file.{Files, Paths}
 import scala.collection.JavaConverters._
 import scala.util.matching.Regex
 
-import com.agilogy.fpintro.messages.app.MessagesRepository
+import com.agilogy.fpintro.messages.app.ImperativeMessagesRepository
 import com.agilogy.fpintro.messages.domain.{Emoji, Message, MessageContent}
 
 final class DuplicateMessageException() extends Exception
 final class MessageNotFoundException()  extends Exception
 
-object MessagesRepository extends MessagesRepository {
+object ImperativeMessagesRepository extends ImperativeMessagesRepository {
 
   private val path                 = Paths.get("./messages.txt").toAbsolutePath
   private val StoredMessage: Regex = s"(.*) -- ?(.*)".r

@@ -2,7 +2,7 @@ package com.agilogy.fpintro.messages.app
 
 import com.agilogy.fpintro.messages.domain.{Emoji, MessageContent}
 
-final class MessagesService(repository: MessagesRepository) {
+final class ImperativeMessagesService(repository: ImperativeMessagesRepository) {
 
   def addReactionsToGoodMorning(): Unit = {
     val goodMorning = MessageContent("Good mooorning FP laaand!")
