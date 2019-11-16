@@ -6,20 +6,21 @@ import java.nio.file.{Files, Paths}
 import scala.collection.JavaConverters._
 import scala.util.matching.Regex
 
+import com.agilogy.fpintro.messages.app.MessagesRepository
 import com.agilogy.fpintro.messages.domain.{Emoji, Message, MessageContent}
 
 final class DuplicateMessageException() extends Exception
 final class MessageNotFoundException()  extends Exception
 
-object MessagesRepository {
+object MessagesRepository extends MessagesRepository {
 
   private val path                 = Paths.get("./messages.txt").toAbsolutePath
   private val StoredMessage: Regex = s"(.*) -- ?(.*)".r
 
-  def selectByContent(content: MessageContent): Message =
+  override def selectByContent(content: MessageContent): Message =
     selectAll().find(_.content == content).getOrElse(throw new MessageNotFoundException)
 
-  def update(message: Message): Unit = {
+  override def update(message: Message): Unit = {
     val currentMessages = selectAll()
     if (!currentMessages.exists(_.content == message.content)) throw new MessageNotFoundException()
     val newMessages = selectAll().map {
