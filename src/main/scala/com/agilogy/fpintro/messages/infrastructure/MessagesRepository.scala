@@ -16,7 +16,8 @@ object MessagesRepository {
   private val path                 = Paths.get("./messages.txt").toAbsolutePath
   private val StoredMessage: Regex = s"(.*) -- ?(.*)".r
 
-  def selectByContent(content: MessageContent): Option[Message] = selectAll().find(_.content == content)
+  def selectByContent(content: MessageContent): Message =
+    selectAll().find(_.content == content).getOrElse(throw new MessageNotFoundException)
 
   def update(message: Message): Unit = {
     val currentMessages = selectAll()
