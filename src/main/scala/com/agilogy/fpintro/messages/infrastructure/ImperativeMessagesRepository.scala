@@ -9,9 +9,6 @@ import scala.util.matching.Regex
 import com.agilogy.fpintro.messages.app.ImperativeMessagesRepository
 import com.agilogy.fpintro.messages.domain.{Emoji, Message, MessageContent}
 
-final class DuplicateMessageException() extends Exception
-final class MessageNotFoundException()  extends Exception
-
 object ImperativeMessagesRepository extends ImperativeMessagesRepository {
 
   private val path                 = Paths.get("./messages.txt").toAbsolutePath
