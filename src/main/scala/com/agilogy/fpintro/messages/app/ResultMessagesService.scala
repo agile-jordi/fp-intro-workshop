@@ -6,7 +6,8 @@ final class ResultMessagesService(repository: ResultMessagesRepository) {
 
   def addReactions(): Unit = {
     val goodMorning = MessageContent("Good mooorning FP laaand!")
-    val message     = repository.selectByContent(goodMorning)
-    repository.update(message.addReaction(Emoji.Sun).addReaction(Emoji.Tada))
+    repository.selectByContent(goodMorning).ifOk { message =>
+      repository.update(message.addReaction(Emoji.Sun).addReaction(Emoji.Tada))
+    }
   }
 }
