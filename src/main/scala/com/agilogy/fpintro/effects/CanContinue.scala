@@ -17,3 +17,14 @@ object CanContinue {
     override def asCanContinue[A](value: A): Id[A]                              = value
   }
 }
+
+object CanContinueSyntax {
+
+  // An implicit class adds methods to an existing type. In this particular case it adds methods to any type F[A] as
+  // long as we have an implicit instance of type `CanContinue[F]`.
+  implicit class CanContinueSyntaxOps[F[_], A](self: F[A])(implicit canContinue: CanContinue[F]) {
+    def flatMap[B](f: A => F[B]): F[B] = canContinue.flatMap(self, f)
+    def map[B](f: A => B): F[B]        = canContinue.map(self, f)
+  }
+
+}
