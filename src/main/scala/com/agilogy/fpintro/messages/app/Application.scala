@@ -10,7 +10,7 @@ import com.agilogy.fpintro.messages.infrastructure.{
   ResultMessagesRepository
 }
 
-abstract class Application[F[_]](repository: MessagesRepository[F])(implicit M: Monad[F]) {
+abstract class Application[F[_]: Monad](repository: MessagesRepository[F]) {
 
   private val service: MessagesService[F] = new MessagesService(repository)
 

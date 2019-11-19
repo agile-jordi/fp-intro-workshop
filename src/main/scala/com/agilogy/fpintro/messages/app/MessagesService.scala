@@ -4,7 +4,7 @@ import com.agilogy.fpintro.effects.Monad
 import com.agilogy.fpintro.effects.MonadSyntax._
 import com.agilogy.fpintro.messages.domain.{Emoji, MessageContent}
 
-final class MessagesService[F[_]](repository: MessagesRepository[F])(implicit M: Monad[F]) {
+final class MessagesService[F[_]: Monad](repository: MessagesRepository[F]) {
 
   def addReactionsToGoodMorning(): F[Unit] = {
     val goodMorning = MessageContent("Good mooorning FP laaand!")

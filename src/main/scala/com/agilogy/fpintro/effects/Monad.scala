@@ -10,6 +10,9 @@ trait Monad[F[_]] {
 
 object Monad {
 
+  // This method allows us to write Monad[F] instead of implicitly[Monad[F]]
+  def apply[F[_]](implicit M: Monad[F]): Monad[F] = M
+
   // We move this value to the companion object of Monad and define it as implicit so that it is automatically
   // found by the scala compiler whenever it looks for a Monad[Async]
   implicit val idMonad: Monad[Id] = new Monad[Id] {
@@ -22,9 +25,10 @@ object MonadSyntax {
 
   // An implicit class adds methods to an existing type. In this particular case it adds methods to any type F[A] as
   // long as we have an implicit instance of type `Monad[F]`.
-  implicit class MonadSyntaxOps[F[_], A](self: F[A])(implicit M: Monad[F]) {
-    def flatMap[B](f: A => F[B]): F[B] = M.flatMap(self, f)
-    def map[B](f: A => B): F[B]        = M.map(self, f)
+  implicit class MonadSyntaxOps[F[_]: Monad, A](self: F[A]) {
+    // See `Monad.apply[F[_]]`
+    def flatMap[B](f: A => F[B]): F[B] = Monad[F].flatMap(self, f)
+    def map[B](f: A => B): F[B]        = Monad[F].map(self, f)
   }
 
 }
