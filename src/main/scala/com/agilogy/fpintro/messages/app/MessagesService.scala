@@ -1,16 +1,10 @@
 package com.agilogy.fpintro.messages.app
 
+import com.agilogy.fpintro.effects.CanContinue
+import com.agilogy.fpintro.effects.async.Async
+import com.agilogy.fpintro.effects.result.Result
 import com.agilogy.fpintro.messages.domain.{Emoji, Message, MessageContent}
-import com.agilogy.fpintro.messages.infrastructure.{
-  AsyncCanContinue,
-  AsyncMessagesRepository,
-  ResultCanContinue,
-  ResultMessagesRepository
-}
-
-trait CanContinue[F[_]] {
-  def continueWith[A, B](program: F[A], continuation: A => F[B]): F[B]
-}
+import com.agilogy.fpintro.messages.infrastructure.{AsyncMessagesRepository, ResultMessagesRepository}
 
 final class MessagesService[F[_]](repository: MessagesRepository[F], canContinue: CanContinue[F]) {
 
@@ -25,6 +19,6 @@ final class MessagesService[F[_]](repository: MessagesRepository[F], canContinue
 
 object MessagesService {
   // Example instances:
-  val asyncMessagesService  = new MessagesService(AsyncMessagesRepository, AsyncCanContinue.asyncCanContinue)
-  val resultMessagesService = new MessagesService(ResultMessagesRepository, ResultCanContinue.resultCanContinue)
+  val asyncMessagesService  = new MessagesService(AsyncMessagesRepository, Async.asyncCanContinue)
+  val resultMessagesService = new MessagesService(ResultMessagesRepository, Result.resultCanContinue)
 }
