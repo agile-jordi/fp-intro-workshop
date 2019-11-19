@@ -1,6 +1,6 @@
 package com.agilogy.fpintro.effects.result
 
-import com.agilogy.fpintro.effects.CanContinue
+import com.agilogy.fpintro.effects.Monad
 
 sealed trait Result[+A] {
 
@@ -22,10 +22,10 @@ object Result {
   def fromImperative[A](f: () => A): Result[A] = try { Result.Ok(f()) } catch { case e: Exception => Result.Error(e) }
 
   // We define this value as implicit so that it is automatically found by the scala compiler whenever it looks for
-  // a CanContinue[Result]
-  implicit val resultCanContinue: CanContinue[Result] = new CanContinue[Result] {
+  // a Monad[Result]
+  implicit val resultMonad: Monad[Result] = new Monad[Result] {
     override def flatMap[A, B](program: Result[A], continuation: A => Result[B]): Result[B] =
       program.ifOk(continuation)
-    override def asCanContinue[A](value: A): Result[A] = Result.Ok(value)
+    override def pure[A](value: A): Result[A] = Result.Ok(value)
   }
 }
