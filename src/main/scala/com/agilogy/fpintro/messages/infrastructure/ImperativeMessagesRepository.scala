@@ -6,10 +6,13 @@ import java.nio.file.{Files, Paths}
 import scala.collection.JavaConverters._
 import scala.util.matching.Regex
 
-import com.agilogy.fpintro.messages.app.ImperativeMessagesRepository
+import com.agilogy.fpintro.effects.id.Id.Id
+import com.agilogy.fpintro.messages.app.MessagesRepository
 import com.agilogy.fpintro.messages.domain.{Emoji, Message, MessageContent}
 
-object ImperativeMessagesRepository extends ImperativeMessagesRepository {
+// Id allows us to see ImperativeMessagesRepository as an implementation of MessagesRepository where our F[_] is Id
+// That is, methods returning F[Unit] now return Id[Unit], which is Unit and same for F[Message] to Message
+object ImperativeMessagesRepository extends MessagesRepository[Id] {
 
   private val path                 = Paths.get("./messages.txt").toAbsolutePath
   private val StoredMessage: Regex = s"(.*) -- ?(.*)".r
