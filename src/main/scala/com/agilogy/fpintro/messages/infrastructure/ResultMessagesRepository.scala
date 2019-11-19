@@ -7,10 +7,10 @@ import scala.collection.JavaConverters._
 import scala.util.matching.Regex
 
 import com.agilogy.fpintro.effects.result.Result
-import com.agilogy.fpintro.messages.app.ResultMessagesRepository
+import com.agilogy.fpintro.messages.app.MessagesRepository
 import com.agilogy.fpintro.messages.domain.{Emoji, Message, MessageContent}
 
-object ResultMessagesRepository extends ResultMessagesRepository {
+object ResultMessagesRepository extends MessagesRepository[Result] {
 
   private val path                 = Paths.get("./messages.txt").toAbsolutePath
   private val StoredMessage: Regex = s"(.*) -- ?(.*)".r

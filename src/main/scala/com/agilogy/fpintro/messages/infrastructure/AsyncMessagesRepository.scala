@@ -7,10 +7,10 @@ import scala.collection.JavaConverters._
 import scala.util.matching.Regex
 
 import com.agilogy.fpintro.effects.async.Async
-import com.agilogy.fpintro.messages.app.AsyncMessagesRepository
+import com.agilogy.fpintro.messages.app.MessagesRepository
 import com.agilogy.fpintro.messages.domain.{Emoji, Message, MessageContent}
 
-object AsyncMessagesRepository extends AsyncMessagesRepository {
+object AsyncMessagesRepository extends MessagesRepository[Async] {
 
   private val path                 = Paths.get("./messages.txt").toAbsolutePath
   private val StoredMessage: Regex = s"(.*) -- ?(.*)".r
