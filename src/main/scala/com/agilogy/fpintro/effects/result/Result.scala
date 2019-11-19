@@ -21,7 +21,9 @@ object Result {
 
   def fromImperative[A](f: () => A): Result[A] = try { Result.Ok(f()) } catch { case e: Exception => Result.Error(e) }
 
-  val resultCanContinue: CanContinue[Result] = new CanContinue[Result] {
+  // We define this value as implicit so that it is automatically found by the scala compiler whenever it looks for
+  // a CanContinue[Result]
+  implicit val resultCanContinue: CanContinue[Result] = new CanContinue[Result] {
     override def continueWith[A, B](program: Result[A], continuation: A => Result[B]): Result[B] =
       program.ifOk(continuation)
   }

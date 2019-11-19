@@ -2,7 +2,6 @@ package com.agilogy.fpintro.messages.app
 
 import com.agilogy.fpintro.effects.CanContinue
 import com.agilogy.fpintro.effects.async.Async
-import com.agilogy.fpintro.effects.id.Id
 import com.agilogy.fpintro.effects.id.Id.Id
 import com.agilogy.fpintro.effects.result.Result
 import com.agilogy.fpintro.messages.infrastructure.{
@@ -11,9 +10,9 @@ import com.agilogy.fpintro.messages.infrastructure.{
   ResultMessagesRepository
 }
 
-abstract class Application[F[_]](repository: MessagesRepository[F], canContinue: CanContinue[F]) {
+abstract class Application[F[_]](repository: MessagesRepository[F])(implicit canContinue: CanContinue[F]) {
 
-  private val service: MessagesService[F] = new MessagesService(repository, canContinue)
+  private val service: MessagesService[F] = new MessagesService(repository)
 
   def run[A](program: F[A]): A
 
@@ -21,14 +20,22 @@ abstract class Application[F[_]](repository: MessagesRepository[F], canContinue:
 
 }
 
-object AsyncApplication extends Application[Async](AsyncMessagesRepository, Async.asyncCanContinue) {
+// These 2 applications take an implicit CanContinue. The implicit is found because it is defined as a `val` of the
+// type we replace the `F` for (Async / Result). That is, when searching for an implicit value of type
+// `CanContinue[Async]` the scala compiler also looks in the companion object of `Async`, where it finds it.
+
+object AsyncApplication extends Application[Async](AsyncMessagesRepository) {
   override def run[A](program: Async[A]): A = program.run()
 }
 
-object ResultApplication extends Application[Result](ResultMessagesRepository, Result.resultCanContinue) {
+object ResultApplication extends Application[Result](ResultMessagesRepository) {
   override def run[A](program: Result[A]): A = program.unsafeGet()
 }
 
-object ImperativeApplication extends Application[Id](ImperativeMessagesRepository, Id.idCanContinue) {
+// Id is a type alias. For the compiler to find the implicit automatically we can't place it in the object Id that
+// contains the type alias. So we moved it to CanContinue. That is, when searching for an implicit value of type
+// `CanContinue[Id]` the scala compiler also looks in the companion object of `CanContinue`, where it finds it.
+
+object ImperativeApplication extends Application[Id](ImperativeMessagesRepository) {
   override def run[A](program: Id[A]): A = program
 }
