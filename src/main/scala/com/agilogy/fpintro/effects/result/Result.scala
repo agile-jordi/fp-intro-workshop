@@ -26,5 +26,6 @@ object Result {
   implicit val resultCanContinue: CanContinue[Result] = new CanContinue[Result] {
     override def continueWith[A, B](program: Result[A], continuation: A => Result[B]): Result[B] =
       program.ifOk(continuation)
+    override def asCanContinue[A](value: A): Result[A] = Result.Ok(value)
   }
 }
