@@ -5,6 +5,7 @@ import com.agilogy.fpintro.effects.id.Id.Id
 trait CanContinue[F[_]] {
   def continueWith[A, B](program: F[A], continuation: A => F[B]): F[B]
   def asCanContinue[A](value: A): F[A]
+  def map[A, B](program: F[A], f: A => B): F[B] = continueWith(program, (a: A) => asCanContinue(f(a)))
 }
 
 object CanContinue {
