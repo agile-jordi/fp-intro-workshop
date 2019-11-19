@@ -11,7 +11,7 @@ object Async {
   // We define this value as implicit so that it is automatically found by the scala compiler whenever it looks for
   // a CanContinue[Async]
   implicit val asyncCanContinue: CanContinue[Async] = new CanContinue[Async] {
-    override def continueWith[A, B](program: Async[A], continuation: A => Async[B]): Async[B] =
+    override def flatMap[A, B](program: Async[A], continuation: A => Async[B]): Async[B] =
       program.andThen(continuation)
     override def asCanContinue[A](value: A): Async[A] = Async(() => value)
   }
