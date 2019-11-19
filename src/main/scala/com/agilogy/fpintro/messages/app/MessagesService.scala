@@ -16,9 +16,3 @@ final class MessagesService[F[_]](repository: MessagesRepository[F], canContinue
   }
 
 }
-
-object MessagesService {
-  // Example instances:
-  val asyncMessagesService  = new MessagesService(AsyncMessagesRepository, Async.asyncCanContinue)
-  val resultMessagesService = new MessagesService(ResultMessagesRepository, Result.resultCanContinue)
-}

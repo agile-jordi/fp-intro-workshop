@@ -4,6 +4,11 @@ import com.agilogy.fpintro.effects.CanContinue
 
 sealed trait Result[+A] {
 
+  def unsafeGet(): A = this match {
+    case Result.Ok(a)    => a
+    case Result.Error(e) => throw e
+  }
+
   def ifOk[B](f: A => Result[B]): Result[B] = this match {
     case Result.Ok(a)    => f(a)
     case Result.Error(e) => Result.Error(e)
