@@ -16,14 +16,17 @@ world (except that one won't handle exceptions for simplicity)
 
 ## Usage hints
 
-This repo uses [groll](https://github.com/sbt/sbt-groll) to guide you through a step by step refactoring. To use it:
+This repo is designed to be used with [groll](https://github.com/sbt/sbt-groll) to guide you through a step by step 
+refactoring. To use it:
 
-1. Clone the repository
-2. Launch sbt
-3. At the sbt command prompt, run `groll initial`
-4. Read the code, think about next step
-5. At the sbt command prompt, run `groll next`
-6. Iterate from 4
+1. Install groll globally, by adding `addSbtPlugin("de.heikoseeberger" % "sbt-groll" % "6.1.0")` to your 
+`~/.sbt/1.0/plugins/plugins.sbt` (create the file if missing)
+2. Clone the repository
+3. Launch sbt
+4. At the sbt command prompt, run `groll initial`
+5. Read the code, think about next step
+6. At the sbt command prompt, run `groll next`
+7. Iterate from 5
 
 If you want to see how the Async version of the program is implemented step by step you can manually checkout the 
 commits in the async branch by hand. Otherwise you'll se all of them in a merge commit when you `groll next` after the 
